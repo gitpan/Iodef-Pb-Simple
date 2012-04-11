@@ -1,0 +1,27 @@
+---
+abstract: 'Perl extension providing high level API access to Iodef::Pb. It takes simple key-pair hashes and maps them to the appropriate IODEF classes using a Module::Pluggable framework of plugins.'
+author:
+  - 'Wes Young, <wes@barely3am.com>'
+build_requires:
+  ExtUtils::MakeMaker: 6.42
+configure_requires:
+  ExtUtils::MakeMaker: 6.42
+distribution_type: module
+generated_by: 'Module::Install version 1.00'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: Iodef-Pb-Simple
+no_index:
+  directory:
+    - examples
+    - inc
+    - t
+requires:
+  Iodef::Pb: 0.00
+  Module::Install: 1.00
+  perl: 5.8.8
+resources:
+  license: http://dev.perl.org/licenses/
+version: 0.00_01
