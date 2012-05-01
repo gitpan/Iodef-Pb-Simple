@@ -16,8 +16,9 @@ lib/Iodef/Pb/Simple/Plugin/Assessment.pm
 lib/Iodef/Pb/Simple/Plugin/Bgp.pm
 lib/Iodef/Pb/Simple/Plugin/Contact.pm
 lib/Iodef/Pb/Simple/Plugin/Detecttime.pm
+lib/Iodef/Pb/Simple/Plugin/Domain.pm
 lib/Iodef/Pb/Simple/Plugin/Eventdata.pm
-lib/Iodef/Pb/Simple/Plugin/Fqdn.pm
+lib/Iodef/Pb/Simple/Plugin/Guid.pm
 lib/Iodef/Pb/Simple/Plugin/Incidentid.pm
 lib/Iodef/Pb/Simple/Plugin/Ipv4.pm
 lib/Iodef/Pb/Simple/Plugin/Md5.pm
