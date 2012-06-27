@@ -25,7 +25,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 $VERSION = eval $VERSION;  # see L<perlmodstyle>
 
 # Preloaded methods go here.
@@ -86,6 +86,7 @@ Iodef::Pb::Simple - Perl extension providing high level API access to Iodef::Pb.
     contact     => 'Wes Young',
     #address    => 'example.com',
     #rdata      => '1.2.3.4',
+    id          => '1234',
     address     => '1.1.1.1',
     prefix      => '1.1.1.0/24',
     asn         => 'AS1234',

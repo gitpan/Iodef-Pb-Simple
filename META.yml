@@ -19,9 +19,13 @@ no_index:
     - inc
     - t
 requires:
+  DateTime: 0.61
+  DateTime::Format::DateParse: 0.05
+  Encode: 2.35
   Iodef::Pb: 0.00
   Module::Install: 1.00
+  Regexp::Common::net::CIDR: 0.02
   perl: 5.8.8
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.01
+version: 0.02
