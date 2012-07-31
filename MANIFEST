@@ -23,6 +23,7 @@ lib/Iodef/Pb/Simple/Plugin/Guid.pm
 lib/Iodef/Pb/Simple/Plugin/Hash.pm
 lib/Iodef/Pb/Simple/Plugin/Incidentid.pm
 lib/Iodef/Pb/Simple/Plugin/Ipv4.pm
+lib/Iodef/Pb/Simple/Plugin/Malware.pm
 lib/Iodef/Pb/Simple/Plugin/Purpose.pm
 lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm
 lib/Iodef/Pb/Simple/Plugin/Reporttime.pm
