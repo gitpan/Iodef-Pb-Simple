@@ -25,7 +25,7 @@ our @EXPORT = qw(
 	
 );
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 $VERSION = eval $VERSION;  # see L<perlmodstyle>
 
 # Preloaded methods go here.
@@ -94,6 +94,7 @@ Iodef::Pb::Simple - Perl extension providing high level API access to Iodef::Pb.
     assessment  => 'botnet',
     confidence  => '50',
     restriction => 'private',
+    method      => 'http://www.virustotal.com/analisis/02da4d701931b1b00703419a34313d41938e5bd22d336186e65ea1b8a6bfbf1d-1280410372',
   });
 
   my $str = $x->encode();
