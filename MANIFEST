@@ -14,6 +14,7 @@ lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm
 lib/Iodef/Pb/Simple/Plugin/Alternativeid.pm
 lib/Iodef/Pb/Simple/Plugin/Assessment.pm
 lib/Iodef/Pb/Simple/Plugin/Bgp.pm
+lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm
 lib/Iodef/Pb/Simple/Plugin/Contact.pm
 lib/Iodef/Pb/Simple/Plugin/Detecttime.pm
 lib/Iodef/Pb/Simple/Plugin/Domain.pm
@@ -24,6 +25,7 @@ lib/Iodef/Pb/Simple/Plugin/Hash.pm
 lib/Iodef/Pb/Simple/Plugin/Incidentid.pm
 lib/Iodef/Pb/Simple/Plugin/Ipv4.pm
 lib/Iodef/Pb/Simple/Plugin/Malware.pm
+lib/Iodef/Pb/Simple/Plugin/Method.pm
 lib/Iodef/Pb/Simple/Plugin/Purpose.pm
 lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm
 lib/Iodef/Pb/Simple/Plugin/Reporttime.pm
