@@ -1,5 +1,6 @@
 Changes
 examples/example.pl
+examples/format.pl
 inc/Module/Install.pm
 inc/Module/Install/Base.pm
 inc/Module/Install/Can.pm
@@ -8,6 +9,11 @@ inc/Module/Install/Makefile.pm
 inc/Module/Install/Metadata.pm
 inc/Module/Install/Win32.pm
 inc/Module/Install/WriteAll.pm
+lib/Iodef/Pb.pm
+lib/Iodef/Pb/Format.pm
+lib/Iodef/Pb/Format/Csv.pm
+lib/Iodef/Pb/Format/Snort.pm
+lib/Iodef/Pb/Format/Table.pm
 lib/Iodef/Pb/Simple.pm
 lib/Iodef/Pb/Simple/Plugin.pm
 lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm
@@ -35,5 +41,4 @@ Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
-rebuild.sh
 t/Iodef-Pb-Simple.t
