@@ -37,6 +37,7 @@ lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm
 lib/Iodef/Pb/Simple/Plugin/Reporttime.pm
 lib/Iodef/Pb/Simple/Plugin/Restriction.pm
 lib/Iodef/Pb/Simple/Plugin/Url.pm
+Makefile
 Makefile.PL
 MANIFEST			This list of files
 META.yml
