@@ -21,10 +21,13 @@ no_index:
   examples: []
 requires:
   Class::Accessor: 0.34
+  Compress::Snappy: 0.18
   DateTime: 0.61
   DateTime::Format::DateParse: 0.05
   Encode: 2.35
   Google::ProtocolBuffers: 0.08
+  JSON::XS: 2.29
+  MIME::Base64: 0.08
   Module::Install: 1.00
   Parse::Range: 0.96
   Regexp::Common::net::CIDR: 0.02
@@ -32,4 +35,4 @@ requires:
   perl: 5.8.8
 resources:
   license: http://dev.perl.org/licenses/
-version: 0.08
+version: 0.09

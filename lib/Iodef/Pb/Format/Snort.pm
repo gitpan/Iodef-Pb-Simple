@@ -11,7 +11,7 @@ sub write_out {
     
     my $config = $args->{'config'};
     
-    my $array = $self->SUPER::to_keypair($args->{'data'});
+    my $array = $self->SUPER::to_keypair($args);
     
     return '' unless(exists(@{$array}[0]->{'address'}));
 
@@ -36,10 +36,12 @@ sub write_out {
         my $portlist = ($_->{'portlist'}) ? $_->{'portlist'} : 'any';
 
         my $priority = 1;
-        die ::Dumper($_);
-        for(lc($_->{'severity'})){
-            $priority = 5 if(/medium/);
-            $priority = 9 if(/high/);
+        
+        if($_->{'severity'}){
+            for(lc($_->{'severity'})){
+                $priority = 5 if(/medium/);
+                $priority = 9 if(/high/);
+            }
         }
 
         my $dstnet      = 'any';

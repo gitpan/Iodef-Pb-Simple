@@ -20,8 +20,8 @@
 #     MIN_PERL_VERSION => q[5.008008]
 #     NAME => q[Iodef::Pb::Simple]
 #     NO_META => q[1]
-#     PREREQ_PM => { DateTime=>q[0.61], DateTime::Format::DateParse=>q[0.05], ExtUtils::MakeMaker=>q[6.42], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], Module::Install=>q[1.00], Parse::Range=>q[0.96], Google::ProtocolBuffers=>q[0.08], Encode=>q[2.35], Regexp::Common::net::CIDR=>q[0.02] }
-#     VERSION => q[0.08]
+#     PREREQ_PM => { DateTime=>q[0.61], DateTime::Format::DateParse=>q[0.05], ExtUtils::MakeMaker=>q[6.42], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], JSON::XS=>q[2.29], Module::Install=>q[1.00], Parse::Range=>q[0.96], Google::ProtocolBuffers=>q[0.08], Encode=>q[2.35], MIME::Base64=>q[0.08], Regexp::Common::net::CIDR=>q[0.02], Compress::Snappy=>q[0.18] }
+#     VERSION => q[0.09]
 #     VERSION_FROM => q[lib/Iodef/Pb/Simple.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -63,11 +63,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Iodef::Pb::Simple
 NAME_SYM = Iodef_Pb_Simple
-VERSION = 0.08
+VERSION = 0.09
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_08
+VERSION_SYM = 0_09
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.08
+XS_VERSION = 0.09
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -195,6 +195,7 @@ TO_INST_PM = generate_bindings.pl \
 	lib/Iodef/Pb/Format.pm \
 	lib/Iodef/Pb/Format/Bindzone.pm \
 	lib/Iodef/Pb/Format/Csv.pm \
+	lib/Iodef/Pb/Format/Json.pm \
 	lib/Iodef/Pb/Format/Snort.pm \
 	lib/Iodef/Pb/Format/Table.pm \
 	lib/Iodef/Pb/Simple.pm \
@@ -261,10 +262,12 @@ PM_TO_BLIB = lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
 	lib/Iodef/Pb/Format/Table.pm \
 	blib/lib/Iodef/Pb/Format/Table.pm \
-	lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
 	lib/Iodef/Pb/Simple/Plugin/Malware.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Malware.pm \
+	lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	lib/Iodef/Pb/Format/Json.pm \
+	blib/lib/Iodef/Pb/Format/Json.pm \
 	lib/Iodef/Pb/Simple/Plugin/Domain.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
 	lib/Iodef/Pb/Format.pm \
@@ -349,7 +352,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Iodef-Pb-Simple
-DISTVNAME = Iodef-Pb-Simple-0.08
+DISTVNAME = Iodef-Pb-Simple-0.09
 
 
 # --- MakeMaker macro section:
@@ -864,16 +867,19 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.08">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.09">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl extension providing high level API access to Iodef::Pb. It takes simple key-pair hashes and maps them to the appropriate IODEF classes using a Module::Pluggable framework of plugins.</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Wes Young, &lt;wes@barely3am.com&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <PERLCORE VERSION="5,008008,0,0" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Class::Accessor" VERSION="0.34" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Compress::Snappy" VERSION="0.18" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="DateTime::" VERSION="0.61" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="DateTime::Format::DateParse" VERSION="0.05" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Encode::" VERSION="2.35" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Google::ProtocolBuffers" VERSION="0.08" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="JSON::XS" VERSION="2.29" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="MIME::Base64" VERSION="0.08" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::Install" VERSION="1" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Parse::Range" VERSION="0.96" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Regexp::Common::net::CIDR" VERSION="0.02" />' >> $(DISTNAME).ppd
@@ -908,8 +914,9 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Iodef/Pb/Simple/Plugin/Bgp.pm blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Url.pm blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
 	  lib/Iodef/Pb/Format/Table.pm blib/lib/Iodef/Pb/Format/Table.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Reporttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Malware.pm blib/lib/Iodef/Pb/Simple/Plugin/Malware.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Reporttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	  lib/Iodef/Pb/Format/Json.pm blib/lib/Iodef/Pb/Format/Json.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Domain.pm blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
 	  lib/Iodef/Pb/Format.pm blib/lib/Iodef/Pb/Format.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Email.pm blib/lib/Iodef/Pb/Simple/Plugin/Email.pm \
