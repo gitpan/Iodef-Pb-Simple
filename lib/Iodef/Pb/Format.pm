@@ -18,6 +18,7 @@ sub new {
     my $args = shift;
      
     my $driver  = $args->{'format'} || 'Table';
+    $driver = ucfirst($driver);
     $driver     = __PACKAGE__.'::'.$driver;
    
     my $data;
@@ -127,7 +128,15 @@ sub to_keypair {
             my $confidence = $assessment->get_Confidence->get_rating();
             if($confidence == ConfidenceType::ConfidenceRating::Confidence_rating_numeric()){
                 $confidence = $assessment->get_Confidence->get_content() || 0;
-                $confidence = sprintf("%.3f",$confidence) unless($confidence =~ /^\d+$/);
+                unless($confidence =~ /^\d+$/){
+                    if($args->{'round_confidence'}){
+                        # we round down, always, error on the side of caution
+                        $confidence = int($confidence);
+                    } else {
+                        $confidence = sprintf("%.3f",$confidence) ;
+                    }
+                
+                }
             }
             my $severity = @{$assessment->get_Impact}[0]->get_severity();
             $severity = $self->convert_severity($severity);
@@ -294,8 +303,52 @@ sub to_keypair {
             @array = sort { $b->{$s} cmp $a->{$s} } @array;
         }
     }
+    # http://code.google.com/p/collective-intelligence-framework/issues/detail?id=206
+    # we should do this in the client, but sort/order might matter on the limit
+    if($args->{'limit'} && $args->{'limit'} < ($#array+1)){
+        my $limit = $args->{'limit'};
+        splice(@array,0,($#array-$limit)+1);
+    }
     return(\@array); 
 }
+
+# confor($conf, ['infrastructure/botnet', 'client'], 'massively_cool_output', 0)
+#
+# search the given sections, in order, for the given config param. if found, 
+# return its value or the default one specified.
+
+sub confor {
+    my $self        = shift;
+    my $conf        = shift;
+    my $sections    = shift;
+    my $name        = shift;
+    my $def         = shift;
+
+    # handle
+    # snort_foo = 1,2,3
+    # snort_foo = "1,2,3"
+
+    foreach my $s (@$sections) { 
+        my $sec = $conf->param(-block => $s);
+        next if isempty($sec);
+        next if !exists $sec->{$name};
+        if (defined($sec->{$name})) {
+            return ref($sec->{$name} eq "ARRAY") ? join(', ', @{$sec->{$name}}) : $sec->{$name};
+        } else {
+            return $def;
+        }
+    }
+    return $def;
+}
+
+sub isempty {
+    my $h = shift;
+    return 1 unless ref($h) eq "HASH";
+    my @k = keys %$h;
+    return 1 if $#k == -1;
+    return 0;
+}
+
 
 1;
   

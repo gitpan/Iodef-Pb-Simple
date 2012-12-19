@@ -27,6 +27,7 @@ sub process {
     }
     
     if($data->{'asn'}){
+        $data->{'asn'} =~ s/^(AS|as)//;
         push(@additional_data,ExtensionType->new({
             dtype   => ExtensionType::DtypeType::dtype_type_string(),
             meaning => 'asn',
@@ -66,9 +67,22 @@ sub process {
     if($data->{'service'} && ref($data->{'service'}) eq 'ServiceType'){
         $service = $data->{'service'};
     } elsif($data->{'protocol'} || $data->{'portlist'}) {
-        $service = ServiceType->new();
+        if($data->{'service'}){
+            my $app = SoftwareType->new({
+                name    => $data->{'service'},
+            });
+            $service = ServiceType->new({
+                Application => $app,
+            });
+        } else {
+            $service = ServiceType->new();
+        }
+        
         my $proto = $data->{'protocol'} || $data->{'ip_protocol'};
         if($data->{'portlist'}){
+            # normalize peoples wierd port habbits
+            $data->{'portlist'} =~ m/(\d+(-\d+)?)$/;
+            $data->{'portlist'} = $1;
             $service->set_Portlist($data->{'portlist'});
             # IODEF requires a default
             $proto = 'tcp' unless($proto);

@@ -20,8 +20,8 @@
 #     MIN_PERL_VERSION => q[5.008008]
 #     NAME => q[Iodef::Pb::Simple]
 #     NO_META => q[1]
-#     PREREQ_PM => { DateTime=>q[0.61], DateTime::Format::DateParse=>q[0.05], ExtUtils::MakeMaker=>q[6.42], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], JSON::XS=>q[2.29], Module::Install=>q[1.00], Parse::Range=>q[0.96], Google::ProtocolBuffers=>q[0.08], Encode=>q[2.35], MIME::Base64=>q[0.08], Regexp::Common::net::CIDR=>q[0.02], Compress::Snappy=>q[0.18] }
-#     VERSION => q[0.10]
+#     PREREQ_PM => { DateTime=>q[0.61], DateTime::Format::DateParse=>q[0.05], ExtUtils::MakeMaker=>q[6.42], HTML::Table=>q[2.08], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], JSON::XS=>q[2.29], Module::Install=>q[1.00], Parse::Range=>q[0.96], Google::ProtocolBuffers=>q[0.08], Regexp::Common::net=>q[2010010201], Encode=>q[2.35], MIME::Base64=>q[0.08], Regexp::Common::net::CIDR=>q[0.02], Compress::Snappy=>q[0.18] }
+#     VERSION => q[0.11]
 #     VERSION_FROM => q[lib/Iodef/Pb/Simple.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -63,11 +63,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Iodef::Pb::Simple
 NAME_SYM = Iodef_Pb_Simple
-VERSION = 0.10
+VERSION = 0.11
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_10
+VERSION_SYM = 0_11
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.10
+XS_VERSION = 0.11
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -194,8 +194,12 @@ TO_INST_PM = generate_bindings.pl \
 	lib/Iodef/Pb.pm \
 	lib/Iodef/Pb/Format.pm \
 	lib/Iodef/Pb/Format/Bindzone.pm \
+	lib/Iodef/Pb/Format/Bro.pm \
 	lib/Iodef/Pb/Format/Csv.pm \
+	lib/Iodef/Pb/Format/Html.pm \
 	lib/Iodef/Pb/Format/Json.pm \
+	lib/Iodef/Pb/Format/Pcapfilter.pm \
+	lib/Iodef/Pb/Format/Raw.pm \
 	lib/Iodef/Pb/Format/Snort.pm \
 	lib/Iodef/Pb/Format/Table.pm \
 	lib/Iodef/Pb/Simple.pm \
@@ -224,10 +228,6 @@ TO_INST_PM = generate_bindings.pl \
 
 PM_TO_BLIB = lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
-	lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
-	lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
 	lib/Iodef/Pb/Format/Bindzone.pm \
 	blib/lib/Iodef/Pb/Format/Bindzone.pm \
 	lib/Iodef/Pb/Simple/Plugin/Method.pm \
@@ -236,16 +236,46 @@ PM_TO_BLIB = lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin.pm \
 	lib/Iodef/Pb/Format/Csv.pm \
 	blib/lib/Iodef/Pb/Format/Csv.pm \
+	lib/Iodef/Pb/Simple/Plugin/Guid.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Guid.pm \
+	lib/Iodef/Pb/Simple/Plugin/Contact.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Contact.pm \
+	lib/Iodef/Pb/Format/Html.pm \
+	blib/lib/Iodef/Pb/Format/Html.pm \
+	lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
+	lib/Iodef/Pb/Simple/Plugin/Url.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
+	lib/Iodef/Pb/Format/Table.pm \
+	blib/lib/Iodef/Pb/Format/Table.pm \
+	lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	lib/Iodef/Pb/Simple/Plugin/Domain.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
+	lib/Iodef/Pb/Simple/Plugin/Email.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Email.pm \
+	lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
+	lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
+	lib/Iodef/Pb/Format/Raw.pm \
+	blib/lib/Iodef/Pb/Format/Raw.pm \
+	lib/Iodef/Pb.pm \
+	blib/lib/Iodef/Pb.pm \
+	lib/Iodef/Pb/Simple/Plugin/Hash.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Hash.pm \
+	lib/Iodef/Pb/Format/Bro.pm \
+	blib/lib/Iodef/Pb/Format/Bro.pm \
+	lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
+	lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
+	blib/lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
 	lib/Iodef/Pb/Simple.pm \
 	blib/lib/Iodef/Pb/Simple.pm \
 	lib/Iodef/Pb/Simple/Plugin/Assessment.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Assessment.pm \
-	lib/Iodef/Pb/Simple/Plugin/Guid.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Guid.pm \
 	lib/Iodef/Pb/Simple/Plugin/Alternativeid.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Alternativeid.pm \
-	lib/Iodef/Pb/Simple/Plugin/Contact.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Contact.pm \
 	lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm \
 	lib/Iodef/Pb/Format/Snort.pm \
@@ -256,34 +286,16 @@ PM_TO_BLIB = lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
 	$(INST_LIB)/Iodef/Pb/generate_bindings.pl \
 	lib/Iodef/Pb/Simple/Plugin/Eventdata.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Eventdata.pm \
-	lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
-	lib/Iodef/Pb/Simple/Plugin/Url.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
-	lib/Iodef/Pb/Format/Table.pm \
-	blib/lib/Iodef/Pb/Format/Table.pm \
+	lib/Iodef/Pb/Format/Pcapfilter.pm \
+	blib/lib/Iodef/Pb/Format/Pcapfilter.pm \
 	lib/Iodef/Pb/Simple/Plugin/Malware.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Malware.pm \
-	lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
 	lib/Iodef/Pb/Format/Json.pm \
 	blib/lib/Iodef/Pb/Format/Json.pm \
-	lib/Iodef/Pb/Simple/Plugin/Domain.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
 	lib/Iodef/Pb/Format.pm \
 	blib/lib/Iodef/Pb/Format.pm \
-	lib/Iodef/Pb/Simple/Plugin/Email.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Email.pm \
-	lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
-	lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
 	lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm \
-	lib/Iodef/Pb.pm \
-	blib/lib/Iodef/Pb.pm \
-	lib/Iodef/Pb/Simple/Plugin/Hash.pm \
-	blib/lib/Iodef/Pb/Simple/Plugin/Hash.pm
+	blib/lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm
 
 
 # --- MakeMaker platform_constants section:
@@ -352,7 +364,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Iodef-Pb-Simple
-DISTVNAME = Iodef-Pb-Simple-0.10
+DISTVNAME = Iodef-Pb-Simple-0.11
 
 
 # --- MakeMaker macro section:
@@ -867,7 +879,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.10">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.11">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl extension providing high level API access to Iodef::Pb. It takes simple key-pair hashes and maps them to the appropriate IODEF classes using a Module::Pluggable framework of plugins.</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Wes Young, &lt;wes@barely3am.com&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
@@ -878,10 +890,12 @@ ppd :
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="DateTime::Format::DateParse" VERSION="0.05" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Encode::" VERSION="2.35" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Google::ProtocolBuffers" VERSION="0.08" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="HTML::Table" VERSION="2.08" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="JSON::XS" VERSION="2.29" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="MIME::Base64" VERSION="0.08" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Module::Install" VERSION="1" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Parse::Range" VERSION="0.96" />' >> $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Regexp::Common::net" VERSION="2010010201" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Regexp::Common::net::CIDR" VERSION="0.02" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <REQUIRE NAME="Snort::Rule" VERSION="1.07" />' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '        <ARCHITECTURE NAME="x86_64-linux-gnu-thread-multi-5.10" />' >> $(DISTNAME).ppd
@@ -895,36 +909,40 @@ ppd :
 pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  lib/Iodef/Pb/Simple/Plugin/Detecttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm blib/lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Restriction.pm blib/lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
 	  lib/Iodef/Pb/Format/Bindzone.pm blib/lib/Iodef/Pb/Format/Bindzone.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Method.pm blib/lib/Iodef/Pb/Simple/Plugin/Method.pm \
 	  lib/Iodef/Pb/Simple/Plugin.pm blib/lib/Iodef/Pb/Simple/Plugin.pm \
 	  lib/Iodef/Pb/Format/Csv.pm blib/lib/Iodef/Pb/Format/Csv.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Guid.pm blib/lib/Iodef/Pb/Simple/Plugin/Guid.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Contact.pm blib/lib/Iodef/Pb/Simple/Plugin/Contact.pm \
+	  lib/Iodef/Pb/Format/Html.pm blib/lib/Iodef/Pb/Format/Html.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Bgp.pm blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Url.pm blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
+	  lib/Iodef/Pb/Format/Table.pm blib/lib/Iodef/Pb/Format/Table.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Reporttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Domain.pm blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Email.pm blib/lib/Iodef/Pb/Simple/Plugin/Email.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Incidentid.pm blib/lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Ipv4.pm blib/lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
+	  lib/Iodef/Pb/Format/Raw.pm blib/lib/Iodef/Pb/Format/Raw.pm \
+	  lib/Iodef/Pb.pm blib/lib/Iodef/Pb.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Hash.pm blib/lib/Iodef/Pb/Simple/Plugin/Hash.pm \
+	  lib/Iodef/Pb/Format/Bro.pm blib/lib/Iodef/Pb/Format/Bro.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Restriction.pm blib/lib/Iodef/Pb/Simple/Plugin/Restriction.pm \
+	  lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm blib/lib/Iodef/Pb/Simple/Plugin/Carboncopy.pm \
 	  lib/Iodef/Pb/Simple.pm blib/lib/Iodef/Pb/Simple.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Assessment.pm blib/lib/Iodef/Pb/Simple/Plugin/Assessment.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Guid.pm blib/lib/Iodef/Pb/Simple/Plugin/Guid.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Alternativeid.pm blib/lib/Iodef/Pb/Simple/Plugin/Alternativeid.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Contact.pm blib/lib/Iodef/Pb/Simple/Plugin/Contact.pm \
 	  lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm blib/lib/Iodef/Pb/Simple/Plugin/AdditionalData.pm \
 	  lib/Iodef/Pb/Format/Snort.pm blib/lib/Iodef/Pb/Format/Snort.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Purpose.pm blib/lib/Iodef/Pb/Simple/Plugin/Purpose.pm \
 	  generate_bindings.pl $(INST_LIB)/Iodef/Pb/generate_bindings.pl \
 	  lib/Iodef/Pb/Simple/Plugin/Eventdata.pm blib/lib/Iodef/Pb/Simple/Plugin/Eventdata.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Bgp.pm blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Url.pm blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
-	  lib/Iodef/Pb/Format/Table.pm blib/lib/Iodef/Pb/Format/Table.pm \
+	  lib/Iodef/Pb/Format/Pcapfilter.pm blib/lib/Iodef/Pb/Format/Pcapfilter.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Malware.pm blib/lib/Iodef/Pb/Simple/Plugin/Malware.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Reporttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
 	  lib/Iodef/Pb/Format/Json.pm blib/lib/Iodef/Pb/Format/Json.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Domain.pm blib/lib/Iodef/Pb/Simple/Plugin/Domain.pm \
 	  lib/Iodef/Pb/Format.pm blib/lib/Iodef/Pb/Format.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Email.pm blib/lib/Iodef/Pb/Simple/Plugin/Email.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Incidentid.pm blib/lib/Iodef/Pb/Simple/Plugin/Incidentid.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Ipv4.pm blib/lib/Iodef/Pb/Simple/Plugin/Ipv4.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm blib/lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm \
-	  lib/Iodef/Pb.pm blib/lib/Iodef/Pb.pm \
-	  lib/Iodef/Pb/Simple/Plugin/Hash.pm blib/lib/Iodef/Pb/Simple/Plugin/Hash.pm 
+	  lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm blib/lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 
 

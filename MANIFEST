@@ -12,8 +12,12 @@ inc/Module/Install/WriteAll.pm
 lib/Iodef/Pb.pm
 lib/Iodef/Pb/Format.pm
 lib/Iodef/Pb/Format/Bindzone.pm
+lib/Iodef/Pb/Format/Bro.pm
 lib/Iodef/Pb/Format/Csv.pm
+lib/Iodef/Pb/Format/Html.pm
 lib/Iodef/Pb/Format/Json.pm
+lib/Iodef/Pb/Format/Pcapfilter.pm
+lib/Iodef/Pb/Format/Raw.pm
 lib/Iodef/Pb/Format/Snort.pm
 lib/Iodef/Pb/Format/Table.pm
 lib/Iodef/Pb/Simple.pm
