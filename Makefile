@@ -21,7 +21,7 @@
 #     NAME => q[Iodef::Pb::Simple]
 #     NO_META => q[1]
 #     PREREQ_PM => { DateTime=>q[0.61], DateTime::Format::DateParse=>q[0.05], JSON::XS=>q[2.29], Google::ProtocolBuffers=>q[0.08], Encode=>q[2.35], Digest::SHA=>q[5.40], HTML::Table=>q[2.08], ExtUtils::MakeMaker=>q[6.42], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], Parse::Range=>q[0.96], Module::Install=>q[1.00], Regexp::Common::net=>q[2010010201], MIME::Base64=>q[0.08], Compress::Snappy=>q[0.18], Regexp::Common::net::CIDR=>q[0.02] }
-#     VERSION => q[0.12]
+#     VERSION => q[0.13]
 #     VERSION_FROM => q[lib/Iodef/Pb/Simple.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -63,11 +63,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Iodef::Pb::Simple
 NAME_SYM = Iodef_Pb_Simple
-VERSION = 0.12
+VERSION = 0.13
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_12
+VERSION_SYM = 0_13
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.12
+XS_VERSION = 0.13
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -364,7 +364,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Iodef-Pb-Simple
-DISTVNAME = Iodef-Pb-Simple-0.12
+DISTVNAME = Iodef-Pb-Simple-0.13
 
 
 # --- MakeMaker macro section:
@@ -879,7 +879,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.12">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.13">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl extension providing high level API access to Iodef::Pb. It takes simple key-pair hashes and maps them to the appropriate IODEF classes using a Module::Pluggable framework of plugins.</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Wes Young, &lt;wes@barely3am.com&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
