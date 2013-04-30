@@ -118,8 +118,8 @@ sub to_keypair {
         foreach my $i (@{$doc->get_Incident()}){
             my $detecttime = $i->get_DetectTime();
             my $reporttime = $i->get_ReportTime();
-        
-            my $description = @{$i->get_Description}[0] ->get_content();
+
+            my $description = @{$i->get_Description}[0]->get_content();
 
             my $id = $i->get_IncidentID->get_content();
         
@@ -150,22 +150,23 @@ sub to_keypair {
             $purpose = $self->convert_purpose($purpose);
         
             my ($altid,$altid_restriction);
-            if(my $x = $i->get_AlternativeID() || $i->get_RelatedActivity()){
+            if(my $x = $i->get_AlternativeID()){
                 if(ref($x) eq 'ARRAY'){
                     $altid               = @{$x}[0];
                 } else {
                     $altid               = $x;
                 }
-                ## TODO -- clean this up
-                $altid_restriction  = $altid->get_restriction() || @{$altid->get_IncidentID}[0]->get_restriction();
+                $altid_restriction  = @{$altid->get_IncidentID}[0]->get_restriction() || $altid->get_restriction() || RestrictionType::restriction_type_private();
                 $altid              = @{$altid->get_IncidentID}[0]->get_content();
-                
             }
             
-            
             # TODO -- only grab the first one for now
-            my $relatedid = @{$i->get_RelatedActivity()->get_IncidentID()}[0]->get_content() if($i->get_RelatedActivity());
-           
+            my ($relatedid,$relatedid_restriction);
+            if($i->get_RelatedActivity()){
+                $relatedid = @{$i->get_RelatedActivity()->get_IncidentID()}[0]->get_content();
+                $relatedid_restriction  = @{$i->get_RelatedActivity()->get_IncidentID()}[0]->get_restriction();
+            }
+            
             my $guid;
             if(my $iad = $i->get_AdditionalData()){
                 foreach (@$iad){
@@ -173,8 +174,10 @@ sub to_keypair {
                     $guid = $_->get_content();
                 }
             }
-            $restriction        = $self->convert_restriction($restriction);
-            $altid_restriction   = $self->convert_restriction($altid_restriction);
+            $restriction            = $self->convert_restriction($restriction);
+            $altid_restriction      = $self->convert_restriction($altid_restriction);
+            $relatedid_restriction  = $self->convert_restriction($relatedid_restriction);
+            
             if(my $map = $self->get_restriction_map()){
                 if(my $r = $map->{$restriction}){
                     $restriction = $r;
@@ -182,10 +185,24 @@ sub to_keypair {
                 if($altid_restriction && (my $r = $map->{$altid_restriction})){
                     $altid_restriction = $r;
                 }
+                if($relatedid_restriction && (my $r = $map->{$relatedid_restriction})){
+                    $relatedid_restriction = $r;
+                }
             }
 
             if($self->get_group_map && $self->get_group_map->{$guid}){
                 $guid = $self->get_group_map->{$guid};
+            }
+            
+            my $carboncopy;
+            my $carboncopy_restriction = 'private';
+            if($#{$i->get_Contact()} > 0){
+                my @tmp;
+                foreach my $contact (@{$i->get_Contact()}){
+                    next unless($contact->get_type == ContactType::ContactRole::Contact_role_cc());
+                    push(@tmp,$contact->get_ContactName->get_content());
+                }
+                $carboncopy = join(',',@tmp);
             }
             
             my $hash = {
@@ -202,8 +219,8 @@ sub to_keypair {
                 alternativeid               => $altid,
                 alternativeid_restriction   => $altid_restriction,
                 relatedid                   => $relatedid,
-            };          
-          
+                relatedid_restriction       => $relatedid_restriction,
+            };
             if($i->get_EventData()){
                 foreach my $e (@{$i->get_EventData()}){
                     my @flows = (ref($e->get_Flow()) eq 'ARRAY') ? @{$e->get_Flow()} : $e->get_Flow();
@@ -297,6 +314,27 @@ sub to_keypair {
             }
         }
     }
+    
+    if(my $new = $args->{'new_only'}){
+        my @tmp;
+        my $now = DateTime->from_epoch(epoch => time());
+        foreach (@array){
+            my $dt = DateTime::Format::DateParse->parse_datetime($_->{'detecttime'});
+            next unless(($dt->ymd().'T'.$dt->hms().'Z') gt ($now->ymd().'T00:00:00Z'));
+            push(@tmp,$_);
+        }
+        @array = @tmp;
+    }
+    
+    if(my $f = $args->{'exclude_assessment'}){
+        $f = lc($f);
+        my @tmp;
+        foreach (@array){
+            next if($_->{'assessment'} eq $f);
+            push(@tmp,$_);
+        }
+        @array = @tmp;
+    }
     ## TODO -- multi column sort?
     if(my $s = $args->{'sortby'}){
         if(uc($args->{'sortby_direction'}) eq 'ASC'){
@@ -311,6 +349,7 @@ sub to_keypair {
         my $limit = $args->{'limit'};
         splice(@array,0,($#array-$limit)+1);
     }
+    
     return(\@array); 
 }
 
@@ -325,6 +364,8 @@ sub confor {
     my $sections    = shift;
     my $name        = shift;
     my $def         = shift;
+    
+    return unless($conf);
 
     # handle
     # snort_foo = 1,2,3

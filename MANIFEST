@@ -15,6 +15,7 @@ lib/Iodef/Pb/Format/Bindzone.pm
 lib/Iodef/Pb/Format/Bro.pm
 lib/Iodef/Pb/Format/Csv.pm
 lib/Iodef/Pb/Format/Html.pm
+lib/Iodef/Pb/Format/Iptables.pm
 lib/Iodef/Pb/Format/Json.pm
 lib/Iodef/Pb/Format/Pcapfilter.pm
 lib/Iodef/Pb/Format/Raw.pm

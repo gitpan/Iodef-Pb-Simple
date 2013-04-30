@@ -28,7 +28,7 @@ sub write_out {
     my $cfg_compress_address    = $args->{'compress_address'}   || $self->SUPER::confor($config, \@config_search_path, 'compress_address',   undef);
     my $cfg_description         = $args->{'description'}        || $self->SUPER::confor($config, \@config_search_path, 'description',        undef);
     my $cfg_table_nowarning     = $args->{'table_nowarning'}    || $self->SUPER::confor($config, \@config_search_path, 'table_nowarning',    undef);
-    my $cfg_table_showmeta      = $args->{'table_showmeta'}     || $self->SUPER::confor($config, \@config_search_path, 'table_showmeta',    undef);
+    my $cfg_table_showmeta      = $args->{'table_showmeta'}     || $self->SUPER::confor($config, \@config_search_path, 'table_showmeta',     undef);
   
     my @cols;
     push(@cols,'id') if($args->{'table_uuid'});
@@ -136,8 +136,12 @@ sub write_out {
     }
     
     ## TODO - guid should be responded to by the router
-    $args->{'uuid'} = '' unless($args->{'uuid'});
-    $args->{'guid'} = '' unless($args->{'guid'});
+    $args->{'uuid'}         = '' unless($args->{'uuid'});
+    $args->{'guid'}         = '' unless($args->{'guid'});
+    $args->{'description'}  = '' unless($args->{'description'});
+    $args->{'reporttime'}   = '' unless($args->{'reporttime'});
+    $args->{'confidence'}   = 0 unless($args->{'confidence'});
+    
     my $limit = $args->{'limit'} || 0;
     
     my $meta = "feed description:   $args->{'description'}

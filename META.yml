@@ -39,5 +39,8 @@ requires:
   Text::Table: 1.126
   perl: 5.8.8
 resources:
+  bugtracker: https://github.com/collectiveintel/iodef-pb-simple-perl/issues
+  homepage: https://github.com/collectiveintel/iodef-pb-simple-perl
   license: http://dev.perl.org/licenses/
-version: 0.17
+  repository: https://github.com/collectiveintel/iodef-pb-simple-perl.git
+version: 0.17_01

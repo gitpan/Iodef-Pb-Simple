@@ -21,7 +21,7 @@
 #     NAME => q[Iodef::Pb::Simple]
 #     NO_META => q[1]
 #     PREREQ_PM => { DateTime=>q[0.61], Text::Table=>q[1.126], DateTime::Format::DateParse=>q[0.05], JSON::XS=>q[2.29], Google::ProtocolBuffers=>q[0.08], Encode=>q[2.35], Digest::SHA=>q[5.40], ExtUtils::MakeMaker=>q[6.42], HTML::Table=>q[2.08], Class::Accessor=>q[0.34], Snort::Rule=>q[1.07], Module::Install=>q[1.00], Parse::Range=>q[0.96], OSSP::uuid=>q[1.0602], Regexp::Common::net=>q[2010010201], MIME::Base64=>q[0.08], Compress::Snappy=>q[0.18], Regexp::Common::net::CIDR=>q[0.02] }
-#     VERSION => q[0.17]
+#     VERSION => q[0.17_01]
 #     VERSION_FROM => q[lib/Iodef/Pb/Simple.pm]
 #     dist => { PREOP=>q[$(PERL) -I. "-MModule::Install::Admin" -e "dist_preop(q($(DISTVNAME)))"] }
 #     realclean => { FILES=>q[MYMETA.yml] }
@@ -63,11 +63,11 @@ DIRFILESEP = /
 DFSEP = $(DIRFILESEP)
 NAME = Iodef::Pb::Simple
 NAME_SYM = Iodef_Pb_Simple
-VERSION = 0.17
+VERSION = 0.17_01
 VERSION_MACRO = VERSION
-VERSION_SYM = 0_17
+VERSION_SYM = 0_17_01
 DEFINE_VERSION = -D$(VERSION_MACRO)=\"$(VERSION)\"
-XS_VERSION = 0.17
+XS_VERSION = 0.17_01
 XS_VERSION_MACRO = XS_VERSION
 XS_DEFINE_VERSION = -D$(XS_VERSION_MACRO)=\"$(XS_VERSION)\"
 INST_ARCHLIB = blib/arch
@@ -197,6 +197,7 @@ TO_INST_PM = generate_bindings.pl \
 	lib/Iodef/Pb/Format/Bro.pm \
 	lib/Iodef/Pb/Format/Csv.pm \
 	lib/Iodef/Pb/Format/Html.pm \
+	lib/Iodef/Pb/Format/Iptables.pm \
 	lib/Iodef/Pb/Format/Json.pm \
 	lib/Iodef/Pb/Format/Pcapfilter.pm \
 	lib/Iodef/Pb/Format/Raw.pm \
@@ -244,6 +245,8 @@ PM_TO_BLIB = lib/Iodef/Pb/Simple/Plugin/Detecttime.pm \
 	blib/lib/Iodef/Pb/Format/Html.pm \
 	lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
+	lib/Iodef/Pb/Format/Iptables.pm \
+	blib/lib/Iodef/Pb/Format/Iptables.pm \
 	lib/Iodef/Pb/Simple/Plugin/Url.pm \
 	blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
 	lib/Iodef/Pb/Format/Table.pm \
@@ -364,7 +367,7 @@ RCS_LABEL = rcs -Nv$(VERSION_SYM): -q
 DIST_CP = best
 DIST_DEFAULT = tardist
 DISTNAME = Iodef-Pb-Simple
-DISTVNAME = Iodef-Pb-Simple-0.17
+DISTVNAME = Iodef-Pb-Simple-0.17_01
 
 
 # --- MakeMaker macro section:
@@ -879,7 +882,7 @@ testdb_static :: testdb_dynamic
 # --- MakeMaker ppd section:
 # Creates a PPD (Perl Package Description) for a binary distribution.
 ppd :
-	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.17">' > $(DISTNAME).ppd
+	$(NOECHO) $(ECHO) '<SOFTPKG NAME="$(DISTNAME)" VERSION="0.17_01">' > $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <ABSTRACT>Perl extension providing high level API access to Iodef::Pb. It takes simple key-pair hashes and maps them to the appropriate IODEF classes using a Module::Pluggable framework of plugins.</ABSTRACT>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <AUTHOR>Wes Young, &lt;wes@barely3am.com&gt;</AUTHOR>' >> $(DISTNAME).ppd
 	$(NOECHO) $(ECHO) '    <IMPLEMENTATION>' >> $(DISTNAME).ppd
@@ -920,6 +923,7 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Iodef/Pb/Simple/Plugin/Contact.pm blib/lib/Iodef/Pb/Simple/Plugin/Contact.pm \
 	  lib/Iodef/Pb/Format/Html.pm blib/lib/Iodef/Pb/Format/Html.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Bgp.pm blib/lib/Iodef/Pb/Simple/Plugin/Bgp.pm \
+	  lib/Iodef/Pb/Format/Iptables.pm blib/lib/Iodef/Pb/Format/Iptables.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Url.pm blib/lib/Iodef/Pb/Simple/Plugin/Url.pm \
 	  lib/Iodef/Pb/Format/Table.pm blib/lib/Iodef/Pb/Format/Table.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Reporttime.pm blib/lib/Iodef/Pb/Simple/Plugin/Reporttime.pm \
@@ -944,7 +948,8 @@ pm_to_blib : $(FIRST_MAKEFILE) $(TO_INST_PM)
 	  lib/Iodef/Pb/Format/Pcapfilter.pm blib/lib/Iodef/Pb/Format/Pcapfilter.pm \
 	  lib/Iodef/Pb/Simple/Plugin/Malware.pm blib/lib/Iodef/Pb/Simple/Plugin/Malware.pm \
 	  lib/Iodef/Pb/Format/Json.pm blib/lib/Iodef/Pb/Format/Json.pm \
-	  lib/Iodef/Pb/Format.pm blib/lib/Iodef/Pb/Format.pm \
+	  lib/Iodef/Pb/Format.pm blib/lib/Iodef/Pb/Format.pm 
+	$(NOECHO) $(ABSPERLRUN) -MExtUtils::Install -e 'pm_to_blib({@ARGV}, '\''$(INST_LIB)/auto'\'', q[$(PM_FILTER)], '\''$(PERM_DIR)'\'')' -- \
 	  lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm blib/lib/Iodef/Pb/Simple/Plugin/Relatedactivity.pm 
 	$(NOECHO) $(TOUCH) pm_to_blib
 

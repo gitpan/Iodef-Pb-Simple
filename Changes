@@ -1,5 +1,16 @@
 Revision history for Perl extension Iodef::Pb::Simple.
 
+0.18     2013-05
+    - added exclude_assessment option
+    - [jeff] spelling error in contacts mod
+    - bugfix to pcapfilter output
+    - added iptables output
+    - bugfix to Ipv4 plugin
+    - added carbon copy support
+
+0.17    2013-01-14
+    - misc
+
 0.16    2013-01-14
     - bugfix to table.pm limit display
 

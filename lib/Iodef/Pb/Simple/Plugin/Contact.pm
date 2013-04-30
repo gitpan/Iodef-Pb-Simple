@@ -13,15 +13,22 @@ sub process {
 
    if(ref($contact) ne 'ContactType'){
         if(ref($contact) ne 'ARRAY'){
+            my $contact_email = $data->{'contact_email'} || 'unknown';
             $contact = [ 
                 ContactType->new({
                     ContactName => MLStringType->new({
                         lang    => $data->{'lang'},
-                        content => $data->{'contact'} || 'unkown',
+                        content => $data->{'contact'} || 'unknown',
                     }),
                     Timezone    => $data->{'timezone'},
                     type        => ContactType::ContactType::Contact_type_person(),
                     role        => ContactType::ContactRole::Contact_role_irt(),
+                    ContactEmail    => [
+                        ContactMeansType->new({
+                            content => $contact_email,
+                            meaning => 'email',
+                        }),
+                    ],  
                 }),
             ],
         }
