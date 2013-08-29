@@ -6,7 +6,7 @@ use warnings;
 
 require Exporter;
 
-our $VERSION = '0.19';
+our $VERSION = '0.20';
 $VERSION = eval $VERSION;  # see L<perlmodstyle>
 
 our @ISA = qw(Exporter);
@@ -412,7 +412,7 @@ sub new {
     $args->{'description'}  = 'unknown'     unless($args->{'description'});
     $args->{'lang'}         = 'EN'          unless($args->{'lang'});
     $args->{'timezone'}     = 'UTC'         unless($args->{'timezone'});
-
+    
     unless(ref($args->{'description'}) eq 'MLStringType'){
         $args->{'description'} = MLStringType->new({
             lang    => $args->{'lang'},

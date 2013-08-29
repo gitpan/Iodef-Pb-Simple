@@ -42,9 +42,11 @@ sub write_out {
         my $portlist = ($_->{'portlist'}) ? $_->{'portlist'} : 'any';       
 
         my $priority = 1;
-        for(lc($_->{'severity'})){
-            $priority = 5 if(/medium/);
-            $priority = 9 if(/high/);
+        if($_->{'severity'}){
+            for(lc($_->{'severity'})){
+                $priority = 5 if(/medium/);
+                $priority = 9 if(/high/);
+            }
         }
 
         my $dstnet      = 'any';
@@ -79,8 +81,9 @@ sub write_out {
                 next;
             }
         }
+        my $action = ($_->{'assessment'} eq 'whitelist') ? 'pass' : 'alert';
         my $r = Snort::Rule->new(
-            -action => 'alert',
+            -action => $action,
             -proto  => translate_proto($_->{'protocol'}),
             -src    => $srcnet,
             -sport  => join(',', (($srcport =~ /^[,\-\d]+$/) ? parse_range($srcport) : $srcport)),

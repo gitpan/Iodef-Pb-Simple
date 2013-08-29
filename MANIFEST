@@ -50,3 +50,4 @@ MANIFEST			This list of files
 META.yml
 README
 t/Iodef-Pb-Simple.t
+test.pl
